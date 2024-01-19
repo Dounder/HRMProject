@@ -12,7 +12,7 @@ public class GetUserByIdQueryHandler(IUnitOfWork repository, RoleService roleSer
 {
     public async Task<UserDto> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        var user = await repository.UserRepository.GetByIdAsyncMap<UserDto>(request.Id);
+        var user = await repository.User.GetByIdAsyncMap<UserDto>(request.Id);
 
         if (user == null) throw new NotFoundException($"User not found");
 

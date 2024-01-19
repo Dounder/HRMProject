@@ -1,6 +1,5 @@
 using AutoMapper;
 using HRM.Application.UseCases.Users.DTOs;
-using HRM.Domain.Entities;
 using HRM.Domain.Entities.Users;
 using HRM.Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
@@ -25,7 +24,7 @@ public class RoleService(UserManager<User> userManager, RoleManager<UserRole> ro
     public async Task<IEnumerable<TM>> GetAllRoles<TM>(int userId)
     {
         var cacheKey = $"UserRoles_{userId}";
-        if (cache.TryGetValue(cacheKey, out IEnumerable<TM> roles)) return roles ?? Enumerable.Empty<TM>();
+        if (cache.TryGetValue(cacheKey, out IEnumerable<TM>? roles)) return roles ?? Enumerable.Empty<TM>();
 
         // Data not in cache, so load data.
         var rolesNames = await userManager.GetRolesAsync(new User { Id = userId });

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HRM.Infrastructure.Data.Configs;
+namespace HRM.Infrastructure.Data.Configs.Employees;
 
 public class TimeTrackingConfig : IEntityTypeConfiguration<TimeTracking>
 {

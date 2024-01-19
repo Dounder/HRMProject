@@ -15,7 +15,7 @@ public class GetUsersQueryHandler(IUnitOfWork repository, RoleService roleServic
     public async Task<IEnumerable<UserDto>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
         var filter = new FilterParams<User> { Pagination = request.Pagination };
-        var users = await repository.UserRepository.GetAllAsyncMap<UserDto>(filter);
+        var users = await repository.User.GetAllAsyncMap<UserDto>(filter);
 
         users = users.Select(x =>
         {
