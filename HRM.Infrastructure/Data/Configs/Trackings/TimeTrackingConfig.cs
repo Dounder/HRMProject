@@ -1,8 +1,8 @@
-﻿using HRM.Domain.Entities.Employees;
+﻿using HRM.Domain.Entities.Trackings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HRM.Infrastructure.Data.Configs.Employees;
+namespace HRM.Infrastructure.Data.Configs.Trackings;
 
 public class TimeTrackingConfig : IEntityTypeConfiguration<TimeTracking>
 {

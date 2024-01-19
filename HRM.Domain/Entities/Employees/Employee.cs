@@ -1,4 +1,6 @@
-﻿namespace HRM.Domain.Entities.Employees;
+﻿using HRM.Domain.Entities.Trackings;
+
+namespace HRM.Domain.Entities.Employees;
 
 public class Employee : BaseEntity
 {

@@ -1,4 +1,6 @@
-﻿namespace HRM.Domain.Entities.Employees;
+﻿using HRM.Domain.Entities.Employees;
+
+namespace HRM.Domain.Entities.Trackings;
 
 public class TimeTracking : BaseEntity
 {

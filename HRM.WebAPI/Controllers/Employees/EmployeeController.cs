@@ -1,5 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using HRM.Application.UseCases.Common.Commands;
+using HRM.Application.UseCases.Employees.Commands;
 using HRM.Application.UseCases.Employees.Queries;
+using HRM.Domain.Common;
+using HRM.Domain.Entities.Employees;
+using HRM.Domain.Enums;
 using IMS.Controllers.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,12 +17,14 @@ namespace IMS.Controllers.Employees;
 public class EmployeeController(IMediator mediator) : BaseController
 {
     [HttpGet]
-    public async Task<ActionResult> Get() => Ok($"Get all");
+    public async Task<ActionResult> Get([FromQuery] PaginationParams pagination) =>
+        Ok(await mediator.Send(new GetEmployeesQuery(pagination)));
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult> GetById(int id)
     {
-        return new OkObjectResult($"Get {id}");
+        var result = await mediator.Send(new GetEmployeeByIdQuery(id));
+        return Ok(result);
     }
 
     [HttpGet("departments")]
@@ -37,20 +44,29 @@ public class EmployeeController(IMediator mediator) : BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult> Post()
+    public async Task<ActionResult> Post(CreateEmployeeCommand command)
     {
-        return new OkObjectResult($"Create");
+        var result = await mediator.Send(command);
+        return Ok(new { message = "Employee created successfully", id = result });
     }
 
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> Put(int id)
+    public async Task<ActionResult> Put(int id, UpdateEmployeeCommand command)
     {
-        return new OkObjectResult($"Update {id}");
+        if (id != command.Id) return BadRequest("Id's do not match");
+
+        await mediator.Send(command);
+        return Ok(new { message = "Employee updated successfully" });
     }
 
-    [HttpDelete("{id:int}")]
-    public async Task<ActionResult> Delete(int id)
+    [HttpPut("toggle/{id:int}")]
+    public async Task<ActionResult> Toggle(int id)
     {
-        return new OkObjectResult($"Delete {id}");
+        var result = await mediator.Send(new ToggleEntityCommand<Employee> { Id = id });
+
+        return Ok(new
+        {
+            message = result == StatusType.Deactivated ? "Employee deactivated successfully" : "Employee activated successfully"
+        });
     }
 }

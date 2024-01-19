@@ -1,5 +1,6 @@
 using HRM.Domain.Entities;
 using HRM.Domain.Entities.Employees;
+using HRM.Domain.Entities.Trackings;
 using HRM.Domain.Entities.Users;
 using HRM.Infrastructure.Data.Seed;
 using Microsoft.AspNetCore.Identity;

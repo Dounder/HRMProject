@@ -2,8 +2,6 @@ using FluentValidation;
 using HRM.Application.Common.Behaviors;
 using HRM.Application.UseCases.Auth.Services;
 using HRM.Application.UseCases.Users.Services;
-using HRM.Application.UseCases.Users;
-using HRM.Domain.Interfaces;
 using HRM.Domain.Interfaces.Auth;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

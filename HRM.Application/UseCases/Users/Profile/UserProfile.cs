@@ -14,6 +14,7 @@ public class UserProfile : AutoMapper.Profile
 
         CreateMap<UpdateUserCommand, User>()
             .ForMember(dest => dest.Roles, opt => opt.Ignore())
+            .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
             .ForAllMembers(opts => opts.Condition((_, _, srcMember) => srcMember != null));
 
         CreateMap<UserRole, RoleDto>();

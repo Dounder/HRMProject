@@ -1,11 +1,13 @@
 using HRM.Domain.Interfaces.Employees;
+using HRM.Domain.Interfaces.Trackings;
 using HRM.Domain.Interfaces.Users;
 
 namespace HRM.Domain.Interfaces.Common;
 
 public interface IUnitOfWork : IDisposable
 {
-    Task CommitAsync();
+    Task CommitAsync(CancellationToken cancellationToken = default);
+    IToggleRepository Toggle { get; }
 
     #region Users
 
