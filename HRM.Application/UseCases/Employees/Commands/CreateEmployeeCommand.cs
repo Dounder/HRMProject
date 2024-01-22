@@ -1,8 +1,9 @@
+using HRM.Application.UseCases.Employees.DTOs;
 using MediatR;
 
 namespace HRM.Application.UseCases.Employees.Commands;
 
-public class CreateEmployeeCommand : IRequest<int>
+public class CreateEmployeeCommand : IRequest<NewEmployeeDto>
 {
     public string Name { get; set; } = default!;
     public string Email { get; set; } = default!;
