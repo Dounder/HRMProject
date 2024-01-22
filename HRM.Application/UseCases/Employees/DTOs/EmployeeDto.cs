@@ -29,3 +29,16 @@ public class DepartmentDto
 public class PositionDto : DepartmentDto
 {
 }
+
+public class NewEmployeeDto
+{
+    public int Id { get; set; }
+    public string Code { get; set; } = default!;
+    public EmployeeUserDto User { get; set; } = default!;
+}
+
+public class EmployeeUserDto
+{
+    public string Username { get; set; } = default!;
+    public string Password { get; set; } = default!;
+}
