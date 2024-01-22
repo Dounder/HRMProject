@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using HRM.Domain.Common;
@@ -22,6 +23,11 @@ public class BaseRepository<T>(ApplicationDbContext context, IMapper mapper) : I
         if (withDeleted) return entity;
 
         return entity.DeletedAt != null ? null : entity;
+    }
+
+    public async Task<T?> GetWhere(Expression<Func<T, bool>> where)
+    {
+        return await dbSet.FirstOrDefaultAsync(where);
     }
 
     public virtual async Task<TM?> GetByIdAsyncMap<TM>(int id)

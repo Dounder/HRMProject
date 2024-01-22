@@ -17,8 +17,6 @@ public class UnitOfWork(ApplicationDbContext context, IMapper mapper) : IUnitOfW
 
     public void Dispose() => context.Dispose();
 
-    public IToggleRepository Toggle => new ToggleRepository(context);
-
     #region Users
 
     public IUserRepository User => new UserRepository(context, mapper);

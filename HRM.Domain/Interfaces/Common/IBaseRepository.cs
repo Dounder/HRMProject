@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using HRM.Domain.Common;
 using HRM.Domain.Enums;
 
@@ -6,6 +7,7 @@ namespace HRM.Domain.Interfaces.Common;
 public interface IBaseRepository<T> where T : class, IBaseEntity
 {
     Task<T?> GetByIdAsync(int id, bool withDeleted = false);
+    Task<T?> GetWhere(Expression<Func<T, bool>> where);
     Task<TM?> GetByIdAsyncMap<TM>(int id);
     Task<IEnumerable<T>> GetAllAsync(FilterParams<T> filter);
     Task<IEnumerable<TM>> GetAllAsyncMap<TM>(FilterParams<T> filter);

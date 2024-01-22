@@ -15,6 +15,7 @@ public static class UserSeed
             new() { Id = 2, Name = "User", NormalizedName = "USER", CreatedAt = DateTime.Parse("2024-01-01") },
             new() { Id = 3, Name = "Guest", NormalizedName = "GUEST", CreatedAt = DateTime.Parse("2024-01-01") },
             new() { Id = 4, Name = "Manager", NormalizedName = "MANAGER", CreatedAt = DateTime.Parse("2024-01-01") },
+            new() { Id = 5, Name = "Employee", NormalizedName = "EMPLOYEE", CreatedAt = DateTime.Parse("2024-01-01") }
         };
 
         modelBuilder.Entity<UserRole>().HasData(roles);
@@ -27,10 +28,11 @@ public static class UserSeed
                 UserName = "admin",
                 NormalizedUserName = "ADMIN",
                 Email = "admin@admin.com",
-                PasswordHash = new PasswordHasher<User>().HashPassword(new User { Id = 1 }, "Admin@1234"),
-                RefreshToken = Guid.NewGuid().ToString(),
+                PasswordHash = "AQAAAAIAAYagAAAAEJoCuIiPTpl+5UGRe6YdpBHiDhokwHeayGPUu6xxllAjyHGHcvrc5HXuxe7IY5cZtA==",
+                RefreshToken = "a8edd57d-5a95-4bd5-a75b-07d2ffa6739e",
                 RefreshTokenExpiryTime = DateTime.Parse("2024-01-01"),
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = "72847254-bae2-46ab-b4d3-25e189ce531d",
+                ConcurrencyStamp = "bcee7468-91cf-468d-bd6b-7fcd42ff2728"
             }
         };
 
@@ -40,7 +42,9 @@ public static class UserSeed
         {
             new() { UserId = 1, RoleId = 1 },
             new() { UserId = 1, RoleId = 2 },
-            new() { UserId = 1, RoleId = 3 }
+            new() { UserId = 1, RoleId = 3 },
+            new() { UserId = 1, RoleId = 4 },
+            new() { UserId = 1, RoleId = 5 },
         };
 
         modelBuilder.Entity<IdentityUserRole<int>>().HasData(userRoles);
