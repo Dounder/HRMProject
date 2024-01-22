@@ -1,10 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using HRM.Application.UseCases.Common.Commands;
 using HRM.Application.UseCases.Employees.Commands;
 using HRM.Application.UseCases.Employees.Queries;
 using HRM.Domain.Common;
-using HRM.Domain.Entities.Employees;
-using HRM.Domain.Enums;
 using IMS.Controllers.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.Controllers.Employees;
 
-[Route("api/employee"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Route("api/employee"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Manager")]
 public class EmployeeController(IMediator mediator) : BaseController
 {
     [HttpGet]
@@ -59,14 +56,17 @@ public class EmployeeController(IMediator mediator) : BaseController
         return Ok(new { message = "Employee updated successfully" });
     }
 
-    [HttpPut("toggle/{id:int}")]
-    public async Task<ActionResult> Toggle(int id)
+    [HttpPut("restore/{id:int}"), Authorize(Roles = "Admin")]
+    public async Task<ActionResult> Restore(int id)
     {
-        var result = await mediator.Send(new ToggleEntityCommand<Employee> { Id = id });
+        await mediator.Send(new RestoreEmployeeCommand(id));
+        return Ok(new { message = "Employee restored" });
+    }
 
-        return Ok(new
-        {
-            message = result == StatusType.Deactivated ? "Employee deactivated successfully" : "Employee activated successfully"
-        });
+    [HttpDelete("{id:int}"), Authorize(Roles = "Admin")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        await mediator.Send(new DeleteEmployeeCommand(id));
+        return Ok(new { message = "Employee deleted successfully" });
     }
 }

@@ -21,15 +21,15 @@ public class RoleService(UserManager<User> userManager, RoleManager<UserRole> ro
         }
     }
 
-    public async Task<IEnumerable<TM>> GetAllRoles<TM>(int userId)
+    public async Task<IEnumerable<RoleDto>> GetAllRoles(int userId)
     {
         var cacheKey = $"UserRoles_{userId}";
-        if (cache.TryGetValue(cacheKey, out IEnumerable<TM>? roles)) return roles ?? Enumerable.Empty<TM>();
+        if (cache.TryGetValue(cacheKey, out IEnumerable<RoleDto>? roles)) return roles ?? Enumerable.Empty<RoleDto>();
 
         // Data not in cache, so load data.
         var rolesNames = await userManager.GetRolesAsync(new User { Id = userId });
         var rolesData = roleManager.Roles.Where(x => rolesNames.Contains(x.Name!));
-        roles = mapper.Map<IEnumerable<TM>>(rolesData);
+        roles = mapper.Map<IEnumerable<RoleDto>>(rolesData);
 
         // Set cache options.
         var cacheEntryOptions = new MemoryCacheEntryOptions()

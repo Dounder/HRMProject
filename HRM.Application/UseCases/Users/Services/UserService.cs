@@ -39,6 +39,6 @@ public class UserService(UserManager<User> userManager)
     {
         if (user is null) throw new NotFoundException("User not found");
 
-        if (user.DeletedAt != null) throw new NotFoundException("User inactive, please contact the administrator");
+        if (user.DeletedAt != null) throw new NotFoundException("User inactive, please contact your administrator");
     }
 }

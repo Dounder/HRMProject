@@ -19,7 +19,7 @@ public class GetUsersQueryHandler(IUnitOfWork repository, RoleService roleServic
 
         users = users.Select(x =>
         {
-            x.Roles = roleService.GetAllRoles<RoleDto>(x.Id).Result;
+            x.Roles = roleService.GetAllRoles(x.Id).Result;
             return x;
         });
 

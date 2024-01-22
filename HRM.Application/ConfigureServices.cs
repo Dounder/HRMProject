@@ -23,9 +23,9 @@ public static class ConfigureServices
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
         });
 
+        services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<UserService>();
         services.AddScoped<RoleService>();
-        services.AddScoped<ITokenService, TokenService>();
 
         return services;
     }
