@@ -7,7 +7,6 @@ namespace HRM.Domain.Interfaces.Common;
 public interface IUnitOfWork : IDisposable
 {
     Task CommitAsync(CancellationToken cancellationToken = default);
-    IToggleRepository Toggle { get; }
 
     #region Users
 
