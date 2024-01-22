@@ -11,9 +11,10 @@ public static class UserSeed
     {
         var roles = new List<UserRole>
         {
-            new() { Id = 1, Name = "Admin", NormalizedName = "ADMIN" },
-            new() { Id = 2, Name = "User", NormalizedName = "USER" },
-            new() { Id = 3, Name = "Guest", NormalizedName = "GUEST" }
+            new() { Id = 1, Name = "Admin", NormalizedName = "ADMIN", CreatedAt = DateTime.Parse("2024-01-01") },
+            new() { Id = 2, Name = "User", NormalizedName = "USER", CreatedAt = DateTime.Parse("2024-01-01") },
+            new() { Id = 3, Name = "Guest", NormalizedName = "GUEST", CreatedAt = DateTime.Parse("2024-01-01") },
+            new() { Id = 4, Name = "Manager", NormalizedName = "MANAGER", CreatedAt = DateTime.Parse("2024-01-01") },
         };
 
         modelBuilder.Entity<UserRole>().HasData(roles);
@@ -28,7 +29,7 @@ public static class UserSeed
                 Email = "admin@admin.com",
                 PasswordHash = new PasswordHasher<User>().HashPassword(new User { Id = 1 }, "Admin@1234"),
                 RefreshToken = Guid.NewGuid().ToString(),
-                RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(-1),
+                RefreshTokenExpiryTime = DateTime.Parse("2024-01-01"),
                 SecurityStamp = Guid.NewGuid().ToString()
             }
         };

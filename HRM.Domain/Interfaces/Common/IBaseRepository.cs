@@ -1,4 +1,5 @@
 using HRM.Domain.Common;
+using HRM.Domain.Enums;
 
 namespace HRM.Domain.Interfaces.Common;
 

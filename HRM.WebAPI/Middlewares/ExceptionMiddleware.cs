@@ -52,7 +52,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         return context.Response.WriteAsync(JsonConvert.SerializeObject(new ErrorDetails
         {
             StatusCode = context.Response.StatusCode,
-            Message = exception.Message // Consider more generic message for production
+            Message = exception.InnerException is null ? exception.Message : exception.InnerException.Message
         }));
     }
 }

@@ -30,7 +30,7 @@ public class LoginCommandHandler(
         if (!result.Succeeded) throw new UnauthorizedAccessException("Invalid credentials");
 
         var userDto = mapper.Map<UserDto>(user);
-        userDto.Roles = await roleService.GetAllRoles<RoleDto>(user.Id);
+        userDto.Roles = await roleService.GetAllRoles(user.Id);
 
         var accessToken = await tokenService.GenerateAccessToken(user);
         var refreshToken = await tokenService.GenerateRefreshToken(user);

@@ -1,6 +1,7 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using HRM.Domain.Common;
+using HRM.Domain.Enums;
 using HRM.Domain.Interfaces.Common;
 using HRM.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

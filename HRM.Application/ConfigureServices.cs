@@ -2,8 +2,6 @@ using FluentValidation;
 using HRM.Application.Common.Behaviors;
 using HRM.Application.UseCases.Auth.Services;
 using HRM.Application.UseCases.Users.Services;
-using HRM.Application.UseCases.Users;
-using HRM.Domain.Interfaces;
 using HRM.Domain.Interfaces.Auth;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,9 +23,9 @@ public static class ConfigureServices
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
         });
 
+        services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<UserService>();
         services.AddScoped<RoleService>();
-        services.AddScoped<ITokenService, TokenService>();
 
         return services;
     }

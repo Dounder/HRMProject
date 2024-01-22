@@ -7,5 +7,6 @@ public static class SeedManager
     public static void Seed(ModelBuilder modelBuilder)
     {
         UserSeed.Seed(modelBuilder);
+        EmployeeSeed.Seed(modelBuilder);
     }
 }
