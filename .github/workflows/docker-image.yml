@@ -36,8 +36,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./HRM.WebAPI/Dockerfile
+          context: "{{defaultContext}}:HRM.WebAPI"
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DATE_TAG }}
