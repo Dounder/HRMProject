@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 namespace HRM.Application.UseCases.Auth.Commands;
 
 public class LoginCommandHandler(
-    SignInManager<User> signInManager,
+    UserManager<User> userManager,
     ITokenService tokenService,
     IMapper mapper,
     UserService userService,
@@ -25,9 +25,8 @@ public class LoginCommandHandler(
 
         if (user == null) throw new UnauthorizedAccessException("Invalid credentials");
 
-        var result = await signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-
-        if (!result.Succeeded) throw new UnauthorizedAccessException("Invalid credentials");
+        if (!await userManager.CheckPasswordAsync(user, request.Password))
+            throw new UnauthorizedAccessException("Invalid credentials");
 
         var userDto = mapper.Map<UserDto>(user);
         userDto.Roles = await roleService.GetAllRoles(user.Id);

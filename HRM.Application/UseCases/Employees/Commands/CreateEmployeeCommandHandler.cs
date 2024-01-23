@@ -1,6 +1,5 @@
 using AutoMapper;
 using HRM.Application.UseCases.Employees.DTOs;
-using HRM.Application.UseCases.Users.Services;
 using HRM.Domain.Entities.Employees;
 using HRM.Domain.Entities.Users;
 using HRM.Domain.Enums;
@@ -11,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace HRM.Application.UseCases.Employees.Commands;
 
-public class CreateEmployeeCommandHandler(IUnitOfWork repository, IMapper mapper, UserManager<User> userManager, RoleService roleService)
+public class CreateEmployeeCommandHandler(IUnitOfWork repository, IMapper mapper, UserManager<User> userManager)
     : IRequestHandler<CreateEmployeeCommand, NewEmployeeDto>
 {
     public async Task<NewEmployeeDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
