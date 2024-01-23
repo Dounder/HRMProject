@@ -84,6 +84,8 @@ if (!app.Environment.IsProduction() || !app.Environment.IsEnvironment("Test"))
     app.UseDeveloperExceptionPage();
 }
 
+app.UseCors("CorsPolicy");
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
