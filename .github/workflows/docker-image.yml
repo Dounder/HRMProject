@@ -20,6 +20,7 @@ jobs:
       - name: Generate date tag
         id: date_tag
         run: echo "DATE_TAG=$(date +'%Y_%m_%d')" >> $GITHUB_ENV
+        
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       
@@ -39,5 +40,4 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DATE_TAG }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.MONTH_TAG  }}
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest         
