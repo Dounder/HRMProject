@@ -36,7 +36,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./HRM.WebAPI/Dockerfile
+          context: "{{defaultContext}}:HRM.WebAPI/Dockerfile"
           target: final
           push: true
           tags: |
