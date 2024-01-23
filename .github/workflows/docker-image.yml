@@ -1,19 +1,26 @@
 name: Create and Push Docker Image
 
 on:
+  push:
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
-    types:
-      - closed
-      
+    branches: [ main ]
+    types: [ closed ]
+
 jobs:
   build:
     name: Building image
     runs-on: ubuntu-latest
 
-    if: github.event.pull_request.merged == true
+    # This condition ensures that the job runs on push to main or if the pull request is merged (closed)
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
         
     steps:    
+      - name: Check out the repo
+        uses: actions/checkout@v2
+        
       - name: Set the Docker image name as an environment variable
         run: echo "DOCKER_IMAGE_NAME=hrm-api" >> $GITHUB_ENV
 
@@ -36,7 +43,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: "{{defaultContext}}:HRM.WebAPI"
+          context: .
           file: ./HRM.WebAPI/Dockerfile
           push: true
           tags: |
