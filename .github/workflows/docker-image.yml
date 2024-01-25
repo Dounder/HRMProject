@@ -19,7 +19,7 @@ jobs:
         
     steps:    
       - name: Check out the repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         
       - name: Set the Docker image name as an environment variable
         run: echo "DOCKER_IMAGE_NAME=hrm-api" >> $GITHUB_ENV
