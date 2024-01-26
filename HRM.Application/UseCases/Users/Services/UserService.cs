@@ -12,7 +12,7 @@ public class UserService(UserManager<User> userManager)
     {
         var user = await userManager.FindByIdAsync(id.ToString());
 
-        ValidateUser(user);
+        ValidateUser(user, withDeleted);
 
         return user!;
     }
@@ -35,10 +35,10 @@ public class UserService(UserManager<User> userManager)
         return user!;
     }
 
-    private void ValidateUser(User? user)
+    private void ValidateUser(User? user, bool withDeleted = false)
     {
         if (user is null) throw new NotFoundException("User not found");
 
-        if (user.DeletedAt != null) throw new NotFoundException("User inactive, please contact your administrator");
+        if (!withDeleted && user.DeletedAt != null) throw new NotFoundException("User inactive, please contact your administrator");
     }
 }
