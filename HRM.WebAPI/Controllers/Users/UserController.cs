@@ -1,4 +1,5 @@
-﻿using HRM.Application.UseCases.Users.Commands;
+﻿using System.Security.Claims;
+using HRM.Application.UseCases.Users.Commands;
 using HRM.Application.UseCases.Users.Queries;
 using HRM.Domain.Common;
 using IMS.Controllers.Common;
@@ -15,7 +16,13 @@ public class UserController(IMediator mediator) : BaseController
     [HttpGet]
     public async Task<ActionResult> Get([FromQuery] PaginationParams pagination)
     {
-        var result = await mediator.Send(new GetUsersQuery(pagination));
+        // Get roles from the token
+        var roles = User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToList();
+        
+        // Check if the user is admin
+        var isAdmin = roles.Contains("Admin");
+        
+        var result = await mediator.Send(new GetUsersQuery(pagination, isAdmin));
         return new OkObjectResult(result);
     }
 

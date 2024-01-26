@@ -43,8 +43,8 @@ public class BaseRepository<T>(ApplicationDbContext context, IMapper mapper) : I
         IQueryable<T> query = dbSet;
 
         query = orderByDescending ? query.OrderByDescending(orderBy) : query.OrderBy(orderBy);
-
-        query = query.Where(where);
+        
+        if (where != null) query = query.Where(where);
 
         if (!trackChanges) query = query.AsNoTracking();
 
@@ -60,7 +60,7 @@ public class BaseRepository<T>(ApplicationDbContext context, IMapper mapper) : I
 
         query = orderByDescending ? query.OrderByDescending(orderBy) : query.OrderBy(orderBy);
 
-        query = query.Where(where);
+        if (where != null) query = query.Where(where);
 
         if (!trackChanges) query = query.AsNoTracking();
 
