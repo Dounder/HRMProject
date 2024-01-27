@@ -3,6 +3,7 @@ using HRM.Application.UseCases.Users.Services;
 using HRM.Domain.Entities;
 using HRM.Domain.Entities.Users;
 using HRM.Domain.Exceptions;
+using HRM.Domain.Interfaces.Common;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
