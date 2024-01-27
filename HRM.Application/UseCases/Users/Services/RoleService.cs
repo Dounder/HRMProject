@@ -2,12 +2,13 @@ using AutoMapper;
 using HRM.Application.UseCases.Users.DTOs;
 using HRM.Domain.Entities.Users;
 using HRM.Domain.Exceptions;
+using HRM.Domain.Interfaces.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace HRM.Application.UseCases.Users.Services;
 
-public class RoleService(UserManager<User> userManager, RoleManager<UserRole> roleManager, IMapper mapper, IMemoryCache cache)
+public class RoleService(UserManager<User> userManager, RoleManager<UserRole> roleManager, IMapper mapper, IMemoryCache cache, IUnitOfWork repository)
 {
     public async Task AddRoleToUser(User user, List<string> roles)
     {
@@ -33,7 +34,7 @@ public class RoleService(UserManager<User> userManager, RoleManager<UserRole> ro
 
         // Set cache options.
         var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetSlidingExpiration(TimeSpan.FromDays(1)); // or use SetAbsoluteExpiration
+            .SetSlidingExpiration(TimeSpan.FromDays(1));
 
         // Save data in cache.
         var allRoles = roles.ToList();
@@ -54,5 +55,13 @@ public class RoleService(UserManager<User> userManager, RoleManager<UserRole> ro
 
         var addRolesResult = await userManager.AddToRolesAsync(user, newRoles);
         if (!addRolesResult.Succeeded) throw new BadRequestException("Error while updating user roles");
+
+        // Update cache
+        var cacheKey = $"UserRoles_{user.Id}";
+        var cacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetSlidingExpiration(TimeSpan.FromDays(1));
+        cache.Set(cacheKey, roles, cacheEntryOptions);
+
+        await repository.CommitAsync(cancellationToken);
     }
 }
