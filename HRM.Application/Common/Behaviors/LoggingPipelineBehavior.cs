@@ -24,7 +24,7 @@ public sealed class LoggingPipelineBehavior<TRequest, TResponse>(ILogger<Logging
 
         //Response
         logger.LogInformation(
-            "CleanArchitecture Request: {Name} {@Request}. {@Date}",
+            "HRM Request: {Name} {@Request}. {@Date}",
             requestName,
             request,
             DateTime.UtcNow);

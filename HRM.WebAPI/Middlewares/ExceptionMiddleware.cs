@@ -43,7 +43,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         {
             NotFoundException => StatusCodes.Status404NotFound,
             BadRequestException => StatusCodes.Status400BadRequest,
-            ForbiddenAccessException => StatusCodes.Status403Forbidden,
+            ForbiddenException => StatusCodes.Status403Forbidden,
             UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
             ConflictException => StatusCodes.Status409Conflict,
             _ => StatusCodes.Status500InternalServerError
