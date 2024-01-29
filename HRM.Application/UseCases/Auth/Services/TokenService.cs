@@ -43,7 +43,7 @@ public class TokenService(IConfiguration configuration, UserManager<User> userMa
         var refreshToken = Convert.ToBase64String(randomNumber);
 
         user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7); // Set the lifespan of the refresh token
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(14); // Set the lifespan of the refresh token
         await userManager.UpdateAsync(user);
 
         return refreshToken;
@@ -52,7 +52,7 @@ public class TokenService(IConfiguration configuration, UserManager<User> userMa
     public async Task<string> RenewAccessToken(string username, string refreshToken)
     {
         var user = await userManager.FindByNameAsync(username);
-        if (user == null) throw new UnauthorizedAccessException("Invalid user login");
+        if (user == null) throw new UnauthorizedAccessException("Invalid logged user");
 
         if (user.RefreshTokenExpiryTime < DateTime.UtcNow) throw new UnauthorizedAccessException("Refresh token expired, please login again");
 
