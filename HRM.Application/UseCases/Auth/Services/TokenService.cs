@@ -3,10 +3,12 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using HRM.Domain.Entities.Users;
+using HRM.Domain.Exceptions;
 using HRM.Domain.Interfaces.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using UnauthorizedAccessException = System.UnauthorizedAccessException;
 
 namespace HRM.Application.UseCases.Auth.Services;
 
@@ -52,11 +54,11 @@ public class TokenService(IConfiguration configuration, UserManager<User> userMa
     public async Task<string> RenewAccessToken(string username, string refreshToken)
     {
         var user = await userManager.FindByNameAsync(username);
-        if (user == null) throw new UnauthorizedAccessException("Invalid user login");
+        if (user == null) throw new UnauthorizedException("Invalid logged user");
 
-        if (user.RefreshTokenExpiryTime < DateTime.UtcNow) throw new UnauthorizedAccessException("Refresh token expired, please login again");
+        if (user.RefreshTokenExpiryTime < DateTime.UtcNow) throw new ForbiddenException("Refresh token expired, please login again");
 
-        if (user.RefreshToken.Trim() != refreshToken.Trim()) throw new UnauthorizedAccessException("Invalid refresh token");
+        if (user.RefreshToken.Trim() != refreshToken.Trim()) throw new BadRequestException("Invalid refresh token");
 
         return await GenerateAccessToken(user);
     }
