@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using HRM.Application.UseCases.Employees.Commands;
 using HRM.Application.UseCases.Employees.Queries;
 using HRM.Domain.Common;
@@ -14,8 +15,16 @@ namespace IMS.Controllers.Employees;
 public class EmployeeController(IMediator mediator) : BaseController
 {
     [HttpGet]
-    public async Task<ActionResult> Get([FromQuery] PaginationParams pagination) =>
-        Ok(await mediator.Send(new GetEmployeesQuery(pagination)));
+    public async Task<ActionResult> Get([FromQuery] PaginationParams pagination)
+    {
+        // Get roles from the token
+        var roles = User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToList();
+        
+        // Check if the user is admin
+        var isAdmin = roles.Contains("Admin");
+        
+        return Ok(await mediator.Send(new GetEmployeesQuery(pagination, isAdmin)));
+    }
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult> GetById(int id)
@@ -44,7 +53,7 @@ public class EmployeeController(IMediator mediator) : BaseController
     public async Task<ActionResult> Post(CreateEmployeeCommand command)
     {
         var result = await mediator.Send(command);
-        return Ok(new { message = "Employee created successfully", id = result });
+        return Ok(new { message = "Employee created successfully", data = result });
     }
 
     [HttpPut("{id:int}")]
@@ -56,7 +65,7 @@ public class EmployeeController(IMediator mediator) : BaseController
         return Ok(new { message = "Employee updated successfully" });
     }
 
-    [HttpPut("restore/{id:int}"), Authorize(Roles = "Admin")]
+    [HttpPut("{id:int}/restore"), Authorize(Roles = "Admin")]
     public async Task<ActionResult> Restore(int id)
     {
         await mediator.Send(new RestoreEmployeeCommand(id));

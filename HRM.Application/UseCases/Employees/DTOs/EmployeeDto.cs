@@ -9,6 +9,11 @@ public class EmployeeDto : BaseDto
     public string Email { get; set; } = default!;
     public string Phone { get; set; } = default!;
     public double Salary { get; set; }
+    public DateTime DateHired { get; set; }
+    public double ExtraHourRate { get; set; }
+
+    public DepartmentDto Department { get; set; } = default!;
+    public PositionDto Position { get; set; } = default!;
 }
 
 public class EmployeeDetailDto : EmployeeDto

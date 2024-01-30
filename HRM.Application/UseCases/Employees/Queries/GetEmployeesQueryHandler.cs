@@ -10,7 +10,10 @@ public class GetEmployeesQueryHandler(IUnitOfWork repository) : IRequestHandler<
 {
     public async Task<IEnumerable<EmployeeDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
-        var filter = new FilterParams<Employee> { Pagination = request.Pagination };
+        var filter = new FilterParams<Employee>
+        {
+            Pagination = request.Pagination, Where = request.IsAdmin ? null : x => x.DeletedAt == null
+        };
         var employees = await repository.Employee.GetAllAsyncMap<EmployeeDto>(filter);
 
         return employees;
